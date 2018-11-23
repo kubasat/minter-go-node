@@ -15,7 +15,7 @@ var (
 )
 
 const (
-	maxTxLength          = maxPayloadLength + maxServiceDataLength + 1024
+	MaxTxLength          = maxPayloadLength + maxServiceDataLength + 1024
 	maxPayloadLength     = 1024
 	maxServiceDataLength = 128
 )
@@ -30,21 +30,7 @@ type Response struct {
 	Tags      []common.KVPair `protobuf:"bytes,7,rep,name=tags" json:"tags,omitempty"`
 }
 
-func RunTx(context *state.StateDB, isCheck bool, rawTx []byte, rewardPool *big.Int, currentBlock int64) Response {
-	if len(rawTx) > maxTxLength {
-		return Response{
-			Code: code.TxTooLarge,
-			Log:  "TX length is over 1024 bytes"}
-	}
-
-	tx, err := DecodeFromBytes(rawTx)
-
-	if err != nil {
-		return Response{
-			Code: code.DecodeError,
-			Log:  err.Error()}
-	}
-
+func RunTx(context *state.StateDB, isCheck bool, tx *Transaction, rewardPool *big.Int, currentBlock int64) Response {
 	if !isCheck {
 		log.Info("Deliver tx", "tx", tx.String())
 	}

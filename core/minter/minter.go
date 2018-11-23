@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/MinterTeam/minter-go-node/cmd/utils"
 	"github.com/MinterTeam/minter-go-node/core/appdb"
+	"github.com/MinterTeam/minter-go-node/core/code"
 	"github.com/MinterTeam/minter-go-node/core/rewards"
 	"github.com/MinterTeam/minter-go-node/core/state"
 	"github.com/MinterTeam/minter-go-node/core/transaction"
@@ -275,8 +276,40 @@ func (app *Blockchain) DeliverTx(rawTx []byte) abciTypes.ResponseDeliverTx {
 
 func (app *Blockchain) DeliverTxs(txs [][]byte) []abciTypes.ResponseDeliverTx {
 	responses := make([]abciTypes.ResponseDeliverTx, len(txs))
+	preparedTransactions := make([]*transaction.Transaction, len(txs))
 
-	for i, tx := range txs {
+	wg := sync.WaitGroup{}
+	for i, rawTx := range txs {
+		wg.Add(1)
+		go func(i int, rawTx []byte) {
+			if len(rawTx) > transaction.MaxTxLength {
+				responses[i] = abciTypes.ResponseDeliverTx{
+					Code: code.TxTooLarge,
+					Log:  "TX length is over 1024 bytes"}
+				return
+			}
+
+			tx, err := transaction.DecodeFromBytes(rawTx)
+
+			if err != nil {
+				responses[i] = abciTypes.ResponseDeliverTx{
+					Code: code.DecodeError,
+					Log:  err.Error()}
+				return
+			}
+
+			preparedTransactions[i] = tx
+			wg.Done()
+		}(i, rawTx)
+	}
+
+	wg.Wait()
+
+	for i, tx := range preparedTransactions {
+		if tx == nil {
+			continue
+		}
+
 		response := transaction.RunTx(app.stateDeliver, false, tx, app.rewards, app.height)
 
 		responses[i] = abciTypes.ResponseDeliverTx{
@@ -294,7 +327,22 @@ func (app *Blockchain) DeliverTxs(txs [][]byte) []abciTypes.ResponseDeliverTx {
 }
 
 func (app *Blockchain) CheckTx(rawTx []byte) abciTypes.ResponseCheckTx {
-	response := transaction.RunTx(app.stateCheck, true, rawTx, nil, app.height)
+	if len(rawTx) > transaction.MaxTxLength {
+		return abciTypes.ResponseCheckTx{
+			Code: code.TxTooLarge,
+			Log:  "TX length is over 1024 bytes"}
+
+	}
+
+	tx, err := transaction.DecodeFromBytes(rawTx)
+
+	if err != nil {
+		return abciTypes.ResponseCheckTx{
+			Code: code.DecodeError,
+			Log:  err.Error()}
+	}
+
+	response := transaction.RunTx(app.stateCheck, true, tx, nil, app.height)
 
 	return abciTypes.ResponseCheckTx{
 		Code:      response.Code,

@@ -14,10 +14,10 @@ check: check_tools ensure_deps
 ### Build
 
 build:
-	CGO_ENABLED=0 go build $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/minter ./cmd/minter/
+	go build $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/minter ./cmd/minter/
 
 install:
-	CGO_ENABLED=0 go install $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' ./cmd/minter
+	go install $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' ./cmd/minter
 
 
 ########################################

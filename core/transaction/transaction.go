@@ -51,6 +51,7 @@ type Transaction struct {
 	decodedData Data
 	sig         *Signature
 	multisig    *SignatureMulti
+	sender      *types.Address
 }
 
 type Signature struct {
@@ -151,9 +152,22 @@ func (tx *Transaction) SetSignature(sig []byte) {
 }
 
 func (tx *Transaction) Sender() (types.Address, error) {
+
+	if tx.sender != nil {
+		return *tx.sender, nil
+	}
+
 	switch tx.SignatureType {
 	case SigTypeSingle:
-		return RecoverPlain(tx.Hash(), tx.sig.R, tx.sig.S, tx.sig.V)
+		sender, err := RecoverPlain(tx.Hash(), tx.sig.R, tx.sig.S, tx.sig.V)
+
+		if err != nil {
+			return types.Address{}, err
+		}
+
+		tx.sender = &sender
+
+		return sender, nil
 	case SigTypeMulti:
 		return tx.multisig.Multisig, nil
 	default:
@@ -234,7 +248,6 @@ func rlpHash(x interface{}) (h types.Hash) {
 }
 
 func DecodeFromBytes(buf []byte) (*Transaction, error) {
-
 	var tx Transaction
 	err := rlp.Decode(bytes.NewReader(buf), &tx)
 
@@ -391,6 +404,14 @@ func DecodeFromBytes(buf []byte) (*Transaction, error) {
 	if tx.GasPrice == nil || tx.Data == nil {
 		return nil, errors.New("incorrect tx data")
 	}
+
+	sender, err := tx.Sender()
+
+	if err != nil {
+		return nil, err
+	}
+
+	tx.sender = &sender
 
 	return &tx, nil
 }
