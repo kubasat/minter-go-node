@@ -289,6 +289,10 @@ func DecodeFromBytes(buf []byte) (*Transaction, error) {
 		{
 			data := RedeemCheckData{}
 			err = rlp.Decode(bytes.NewReader(tx.Data), &data)
+			_, err = data.DecodedCheck()
+			if err != nil {
+				return nil, errors.New("incorrect tx data")
+			}
 			tx.SetDecodedData(data)
 
 			if data.RawCheck == nil {

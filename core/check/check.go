@@ -25,13 +25,32 @@ type Check struct {
 	V        *big.Int
 	R        *big.Int
 	S        *big.Int
+
+	lockPubKey *[]byte
+	sender     *types.Address
 }
 
 func (check *Check) Sender() (types.Address, error) {
-	return recoverPlain(check.Hash(), check.R, check.S, check.V)
+	if check.sender != nil {
+		return *check.sender, nil
+	}
+
+	sender, err := recoverPlain(check.Hash(), check.R, check.S, check.V)
+
+	if err != nil {
+		return types.Address{}, err
+	}
+
+	check.sender = &sender
+
+	return sender, nil
 }
 
 func (check *Check) LockPubKey() ([]byte, error) {
+	if check.lockPubKey != nil {
+		return *check.lockPubKey, nil
+	}
+
 	sig := check.Lock.Bytes()
 
 	if len(sig) < 65 {
@@ -47,6 +66,8 @@ func (check *Check) LockPubKey() ([]byte, error) {
 	if len(pub) == 0 || pub[0] != 4 {
 		return nil, errors.New("invalid public key")
 	}
+
+	check.lockPubKey = &pub
 
 	return pub, nil
 }

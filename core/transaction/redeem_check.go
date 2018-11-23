@@ -21,6 +21,26 @@ import (
 type RedeemCheckData struct {
 	RawCheck []byte
 	Proof    [65]byte
+
+	decodedCheck *check.Check
+}
+
+func (data *RedeemCheckData) DecodedCheck() (*check.Check, error) {
+	if data.decodedCheck != nil {
+		return data.decodedCheck, nil
+	}
+
+	decoded, err := check.DecodeFromBytes(data.RawCheck)
+
+	if err != nil {
+		return nil, err
+	}
+
+	_, _ = decoded.Sender()
+	_, _ = decoded.LockPubKey()
+	data.decodedCheck = decoded
+
+	return decoded, nil
 }
 
 func (data RedeemCheckData) MarshalJSON() ([]byte, error) {
@@ -42,7 +62,7 @@ func (data RedeemCheckData) Gas() int64 {
 }
 
 func (data RedeemCheckData) Run(sender types.Address, tx *Transaction, context *state.StateDB, isCheck bool, rewardPool *big.Int, currentBlock int64) Response {
-	decodedCheck, err := check.DecodeFromBytes(data.RawCheck)
+	decodedCheck, err := data.DecodedCheck()
 
 	if err != nil {
 		return Response{
