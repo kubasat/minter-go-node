@@ -3,9 +3,9 @@ package appdb
 import (
 	"encoding/binary"
 	"github.com/MinterTeam/minter-go-node/cmd/utils"
+	"github.com/danil-lashin/tendermint/abci/types"
+	"github.com/danil-lashin/tendermint/libs/db"
 	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tendermint/abci/types"
-	"github.com/tendermint/tendermint/libs/db"
 )
 
 var (

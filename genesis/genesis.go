@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"github.com/MinterTeam/minter-go-node/core/types"
 	"github.com/MinterTeam/minter-go-node/helpers"
-	"github.com/tendermint/tendermint/crypto/ed25519"
-	tmtypes "github.com/tendermint/tendermint/types"
+	"github.com/danil-lashin/tendermint/crypto/ed25519"
+	tmtypes "github.com/danil-lashin/tendermint/types"
 	"math/big"
 	"time"
 )

@@ -10,7 +10,7 @@ RUN apk update && \
 
 USER minteruser
 
-VOLUME [ $MINTERHOME ]
+VOLUME $MINTERHOME
 
 WORKDIR $MINTERHOME
 

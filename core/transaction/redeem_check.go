@@ -14,7 +14,7 @@ import (
 	"github.com/MinterTeam/minter-go-node/crypto/sha3"
 	"github.com/MinterTeam/minter-go-node/formula"
 	"github.com/MinterTeam/minter-go-node/rlp"
-	"github.com/tendermint/tendermint/libs/common"
+	"github.com/danil-lashin/tendermint/libs/common"
 	"math/big"
 )
 

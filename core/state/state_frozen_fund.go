@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"github.com/MinterTeam/minter-go-node/core/types"
 	"github.com/MinterTeam/minter-go-node/rlp"
-	"github.com/tendermint/tendermint/crypto/ed25519"
+	"github.com/danil-lashin/tendermint/crypto/ed25519"
 	"math/big"
 )
 

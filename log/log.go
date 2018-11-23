@@ -2,8 +2,8 @@ package log
 
 import (
 	"github.com/MinterTeam/minter-go-node/config"
-	"github.com/tendermint/tendermint/libs/cli/flags"
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/danil-lashin/tendermint/libs/cli/flags"
+	"github.com/danil-lashin/tendermint/libs/log"
 	"os"
 )
 

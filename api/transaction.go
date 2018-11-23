@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/MinterTeam/minter-go-node/core/transaction"
+	"github.com/danil-lashin/tendermint/libs/common"
 	"github.com/gorilla/mux"
-	"github.com/tendermint/tendermint/libs/common"
 	"net/http"
 	"strings"
 )

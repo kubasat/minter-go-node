@@ -9,7 +9,7 @@ import (
 	"github.com/MinterTeam/minter-go-node/crypto"
 	"github.com/MinterTeam/minter-go-node/helpers"
 	"github.com/MinterTeam/minter-go-node/rlp"
-	"github.com/tendermint/tendermint/libs/db"
+	"github.com/danil-lashin/tendermint/libs/db"
 	"math/big"
 	"testing"
 )

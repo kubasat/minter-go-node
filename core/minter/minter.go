@@ -13,8 +13,8 @@ import (
 	"github.com/MinterTeam/minter-go-node/eventsdb"
 	"github.com/MinterTeam/minter-go-node/genesis"
 	"github.com/MinterTeam/minter-go-node/helpers"
-	abciTypes "github.com/tendermint/tendermint/abci/types"
-	"github.com/tendermint/tendermint/libs/db"
+	abciTypes "github.com/danil-lashin/tendermint/abci/types"
+	"github.com/danil-lashin/tendermint/libs/db"
 	"math/big"
 	"sync"
 	"sync/atomic"
@@ -270,17 +270,27 @@ func (app *Blockchain) Info(req abciTypes.RequestInfo) (resInfo abciTypes.Respon
 }
 
 func (app *Blockchain) DeliverTx(rawTx []byte) abciTypes.ResponseDeliverTx {
-	response := transaction.RunTx(app.stateDeliver, false, rawTx, app.rewards, app.height)
+	panic("implement me")
+}
 
-	return abciTypes.ResponseDeliverTx{
-		Code:      response.Code,
-		Data:      response.Data,
-		Log:       response.Log,
-		Info:      response.Info,
-		GasWanted: response.GasWanted,
-		GasUsed:   response.GasUsed,
-		Tags:      response.Tags,
+func (app *Blockchain) DeliverTxs(txs [][]byte) []abciTypes.ResponseDeliverTx {
+	responses := make([]abciTypes.ResponseDeliverTx, len(txs))
+
+	for i, tx := range txs {
+		response := transaction.RunTx(app.stateDeliver, false, tx, app.rewards, app.height)
+
+		responses[i] = abciTypes.ResponseDeliverTx{
+			Code:      response.Code,
+			Data:      response.Data,
+			Log:       response.Log,
+			Info:      response.Info,
+			GasWanted: response.GasWanted,
+			GasUsed:   response.GasUsed,
+			Tags:      response.Tags,
+		}
 	}
+
+	return responses
 }
 
 func (app *Blockchain) CheckTx(rawTx []byte) abciTypes.ResponseCheckTx {

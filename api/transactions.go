@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/MinterTeam/minter-go-node/core/transaction"
 	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/tendermint/tendermint/libs/common"
-	"github.com/tendermint/tendermint/rpc/core/types"
+	"github.com/danil-lashin/tendermint/libs/common"
+	"github.com/danil-lashin/tendermint/rpc/core/types"
 	"math/big"
 	"net/http"
 )

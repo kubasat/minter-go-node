@@ -14,9 +14,9 @@ import (
 
 	"github.com/MinterTeam/minter-go-node/core/minter"
 	"github.com/MinterTeam/minter-go-node/core/state"
+	"github.com/danil-lashin/tendermint/crypto/encoding/amino"
+	rpc "github.com/danil-lashin/tendermint/rpc/client"
 	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tendermint/crypto/encoding/amino"
-	rpc "github.com/tendermint/tendermint/rpc/client"
 	"strconv"
 	"time"
 )

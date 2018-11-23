@@ -25,7 +25,7 @@ import (
 	"github.com/MinterTeam/minter-go-node/formula"
 	"github.com/MinterTeam/minter-go-node/log"
 	"github.com/MinterTeam/minter-go-node/rlp"
-	dbm "github.com/tendermint/tendermint/libs/db"
+	dbm "github.com/danil-lashin/tendermint/libs/db"
 	"math/big"
 	"sync"
 

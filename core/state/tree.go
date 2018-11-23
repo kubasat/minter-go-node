@@ -2,7 +2,7 @@ package state
 
 import (
 	"github.com/danil-lashin/iavl"
-	dbm "github.com/tendermint/tendermint/libs/db"
+	dbm "github.com/danil-lashin/tendermint/libs/db"
 	"sync"
 )
 

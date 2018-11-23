@@ -3,8 +3,8 @@ package config
 import (
 	"fmt"
 	"github.com/MinterTeam/minter-go-node/cmd/utils"
+	tmConfig "github.com/danil-lashin/tendermint/config"
 	"github.com/spf13/viper"
-	tmConfig "github.com/tendermint/tendermint/config"
 	"os"
 	"path/filepath"
 	"time"

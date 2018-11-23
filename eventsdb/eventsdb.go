@@ -4,8 +4,8 @@ import (
 	"encoding/binary"
 	"github.com/MinterTeam/minter-go-node/cmd/utils"
 	"github.com/MinterTeam/minter-go-node/config"
+	"github.com/danil-lashin/tendermint/libs/db"
 	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tendermint/libs/db"
 	"sync"
 )
 

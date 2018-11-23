@@ -9,12 +9,12 @@ import (
 	"github.com/MinterTeam/minter-go-node/genesis"
 	"github.com/MinterTeam/minter-go-node/gui"
 	"github.com/MinterTeam/minter-go-node/log"
-	"github.com/tendermint/tendermint/libs/common"
-	tmNode "github.com/tendermint/tendermint/node"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/privval"
-	"github.com/tendermint/tendermint/proxy"
-	rpc "github.com/tendermint/tendermint/rpc/client"
+	"github.com/danil-lashin/tendermint/libs/common"
+	tmNode "github.com/danil-lashin/tendermint/node"
+	"github.com/danil-lashin/tendermint/p2p"
+	"github.com/danil-lashin/tendermint/privval"
+	"github.com/danil-lashin/tendermint/proxy"
+	rpc "github.com/danil-lashin/tendermint/rpc/client"
 	"os"
 )
 

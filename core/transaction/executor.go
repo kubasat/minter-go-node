@@ -6,7 +6,7 @@ import (
 	"github.com/MinterTeam/minter-go-node/core/state"
 	"github.com/MinterTeam/minter-go-node/core/types"
 	"github.com/MinterTeam/minter-go-node/log"
-	"github.com/tendermint/tendermint/libs/common"
+	"github.com/danil-lashin/tendermint/libs/common"
 	"math/big"
 )
 
@@ -31,7 +31,6 @@ type Response struct {
 }
 
 func RunTx(context *state.StateDB, isCheck bool, rawTx []byte, rewardPool *big.Int, currentBlock int64) Response {
-
 	if len(rawTx) > maxTxLength {
 		return Response{
 			Code: code.TxTooLarge,

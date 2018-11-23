@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/MinterTeam/minter-go-node/version"
-	"github.com/tendermint/tendermint/rpc/core/types"
+	"github.com/danil-lashin/tendermint/rpc/core/types"
 	"net/http"
 	"time"
 )
