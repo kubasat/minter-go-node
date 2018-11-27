@@ -34,6 +34,7 @@ type Blockchain struct {
 	validatorsStatuses  map[[20]byte]int8
 
 	lock sync.RWMutex
+	wg   sync.WaitGroup
 }
 
 const (
@@ -103,6 +104,8 @@ func (app *Blockchain) InitChain(req abciTypes.RequestInitChain) abciTypes.Respo
 }
 
 func (app *Blockchain) BeginBlock(req abciTypes.RequestBeginBlock) abciTypes.ResponseBeginBlock {
+	app.wg.Add(1)
+
 	atomic.StoreInt64(&app.height, req.Header.Height)
 	app.rewards = big.NewInt(0)
 
@@ -369,6 +372,8 @@ func (app *Blockchain) Commit() abciTypes.ResponseCommit {
 
 	atomic.StoreInt64(&app.lastCommittedHeight, app.Height())
 
+	app.wg.Done()
+
 	return abciTypes.ResponseCommit{
 		Data: hash,
 	}
@@ -379,6 +384,8 @@ func (app *Blockchain) Query(reqQuery abciTypes.RequestQuery) abciTypes.Response
 }
 
 func (app *Blockchain) Stop() {
+	app.wg.Wait()
+
 	app.appDB.Close()
 	app.stateDB.Close()
 }
